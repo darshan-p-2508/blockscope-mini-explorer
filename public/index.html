@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="BlockScope is an educational mini blockchain explorer. Explore blocks, transactions, and demo account balances.">
+  <title>BlockScope — Blockchain Explorer</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="BlockScope home"><span class="brand-mark">B</span><span>Block<span class="accent">Scope</span><small>LOCAL CHAIN EXPLORER</small></span></a>
+    <div class="network-pill"><span class="pulse"></span> BlockScope Local Chain</div>
+  </header>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">OPEN LEDGER · EDUCATIONAL NETWORK</div>
+      <h1>Explore the chain.<br><span class="gradient-text">Understand the data.</span></h1>
+      <p>Inspect blocks, follow transactions, and experiment with a transparent mini blockchain.</p>
+      <form id="search-form" class="search" role="search">
+        <span aria-hidden="true">⌕</span>
+        <input id="search-input" aria-label="Search block height or transaction ID" placeholder="Search block height or transaction ID…" autocomplete="off">
+        <button type="submit">Search</button>
+      </form>
+      <p id="search-message" class="inline-message" role="status"></p>
+    </section>
+
+    <section class="stats-grid" aria-label="Chain statistics">
+      <article class="stat-card"><div class="stat-label">LATEST HEIGHT</div><div class="stat-value" id="height">—</div><div class="stat-foot">Blocks in this local chain</div></article>
+      <article class="stat-card"><div class="stat-label">CONFIRMED TXS</div><div class="stat-value" id="confirmed">—</div><div class="stat-foot">Included in mined blocks</div></article>
+      <article class="stat-card"><div class="stat-label">PENDING TXS</div><div class="stat-value" id="pending">—</div><div class="stat-foot">Waiting to be mined</div></article>
+      <article class="stat-card"><div class="stat-label">CHAIN INTEGRITY</div><div class="stat-value status-value" id="integrity">Checking…</div><div class="stat-foot" id="integrity-foot">Hash links and proof of work</div></article>
+    </section>
+
+    <section class="workspace">
+      <div class="panel">
+        <div class="panel-heading"><div><div class="eyebrow">INTERACTIVE DEMO</div><h2>Create a transaction</h2></div><span class="panel-icon">↗</span></div>
+        <p class="muted">Send simulated units between demo accounts. No real funds are involved.</p>
+        <form id="transaction-form" class="form-grid">
+          <label>From <input name="from" value="alice" required minlength="2" maxlength="32" pattern="[A-Za-z0-9_-]+" autocomplete="off"></label>
+          <label>To <input name="to" value="bob" required minlength="2" maxlength="32" pattern="[A-Za-z0-9_-]+" autocomplete="off"></label>
+          <label class="full">Amount <input name="amount" type="number" min="0.01" max="1000000000" step="0.01" value="2.50" required></label>
+          <button class="primary full" type="submit">＋ Add pending transaction</button>
+        </form>
+        <div id="transaction-message" class="message" role="status"></div>
+        <div class="section-divider"></div>
+        <div class="panel-heading compact"><div><div class="eyebrow">PROOF OF WORK</div><h2>Mine a block</h2></div></div>
+        <p class="muted">Mining confirms queued transactions and credits a demo reward to the miner.</p>
+        <form id="mine-form" class="mine-form"><label class="sr-only" for="miner">Miner account</label><input id="miner" name="miner" value="miner" required minlength="2" maxlength="32"><button type="submit" class="primary">Mine pending</button></form>
+        <div id="mine-message" class="message" role="status"></div>
+      </div>
+
+      <div class="panel balances-panel">
+        <div class="panel-heading"><div><div class="eyebrow">DEMO LEDGER</div><h2>Account balances</h2></div><span class="panel-icon">◎</span></div>
+        <p class="muted">Illustrative balances stored in this server process.</p>
+        <div id="balances" class="balances"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+        <div class="note"><strong>Heads up</strong><span>State resets when the server restarts. Account names are not cryptographic wallets yet.</span></div>
+      </div>
+    </section>
+
+    <section class="panel data-panel">
+      <div class="panel-heading"><div><div class="eyebrow">LEDGER ACTIVITY</div><h2>Latest blocks</h2></div><button class="text-button" id="refresh-button" type="button">↻ Refresh</button></div>
+      <div class="table-wrap"><table><thead><tr><th>HEIGHT</th><th>BLOCK HASH</th><th>PREVIOUS HASH</th><th>TX COUNT</th><th>TIME</th></tr></thead><tbody id="blocks-body"><tr><td colspan="5" class="empty">Loading blocks…</td></tr></tbody></table></div>
+    </section>
+
+    <section class="panel data-panel">
+      <div class="panel-heading"><div><div class="eyebrow">TRANSACTION FLOW</div><h2>Latest transactions</h2></div><span class="subtle-tag">Pending + confirmed</span></div>
+      <div class="table-wrap"><table><thead><tr><th>TRANSACTION ID</th><th>FROM</th><th>TO</th><th>AMOUNT</th><th>STATUS</th></tr></thead><tbody id="transactions-body"><tr><td colspan="5" class="empty">Loading transactions…</td></tr></tbody></table></div>
+    </section>
+    <footer><span>BlockScope <span id="version">v0.1.0</span></span><span>Educational local blockchain · Not real assets</span><span id="server-status"><span class="pulse"></span> Connecting…</span></footer>
+  </main>
+  <dialog id="detail-dialog" class="detail-dialog"><div class="dialog-head"><h2 id="dialog-title">Details</h2><button id="dialog-close" class="close-button" aria-label="Close details">×</button></div><pre id="dialog-content"></pre></dialog>
+</body>
+</html>
